@@ -1,5 +1,5 @@
 // ensure env variables
-import "./env.js"
+import "../env"
 
 import { onDBConnect, knex } from "./config/knex"
 
