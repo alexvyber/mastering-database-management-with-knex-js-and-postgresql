@@ -97,3 +97,29 @@ export async function updateBook(data: any) {
 
   return [":ok", (await knex("books").insert(data, ["title", "id"]))[0]]
 }
+
+export async function getBooksWithAuthorAndGenre() {
+  const books = await knex("books")
+    .join("authors", "authors.id", "books.author_id")
+    .join("genres", "genres.id", "books.genre_id")
+    .select(
+      "books.id",
+      "books.title",
+      "books.genre_id",
+      "authors.name as author",
+      "genres.name as genre"
+    )
+
+  return books
+}
+
+export async function getAuthorsWithBooksCount(limit = 10) {
+  const authors = await knex("authors")
+    .join("books", "books.author_id", "authors.id")
+    .select("authors.name", knex.raw("count(books.id) as books_count"))
+    .groupBy("authors.id")
+    .orderBy("books_count", "desc")
+    .limit(10)
+
+  return authors
+}

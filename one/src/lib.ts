@@ -10,7 +10,10 @@ export const generateAuthor = () => ({
 })
 export const generateGenre = () => ({ name: faker.lorem.words(2) })
 
-export const generateBook = ({ author_id, genre_id }: Record<string, number>) => ({
+export const generateBook = ({
+  author_id,
+  genre_id,
+}: Record<"author_id" | "genre_id", number>) => ({
   title: faker.lorem.sentence(),
   description: faker.lorem.paragraph(4),
   price: faker.number.int({ min: 30, max: 300 }),

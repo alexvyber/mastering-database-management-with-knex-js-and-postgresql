@@ -8,11 +8,14 @@ import {
   deleteAuthor,
   getAuthorById,
   getAuthors,
+  getAuthorsWithBooksCount,
   getBookById,
   getBooks,
+  getBooksWithAuthorAndGenre,
   updateAuthor,
 } from "./crud"
 import { generateAuthor, generateBook } from "./lib"
+import { createAuthorWithBook } from "./transactions"
 
 // onDBConnect()
 //   .then(() => console.log("success"))
@@ -44,8 +47,14 @@ async function main() {
   // const three = await deleteAuthor(one.id)
   // console.log({ one, two, three })
 
-  const del = await deleteAuthor(Math.floor(Math.random() * 150) + 1)
-  console.log("🚀 ~ main ~ del:", del)
+  // const del = await deleteAuthor(Math.floor(Math.random() * 150) + 1)
+
+  // const joinedBooks = await getBooksWithAuthorAndGenre()
+
+  // const authorsWithBooksCount = await getAuthorsWithBooksCount()
+
+  const inserts = await createAuthorWithBook()
+  console.log("🚀 ~ main ~ inserts:", inserts)
 
   process.exit()
 }
