@@ -1,0 +1,46 @@
+version: "3.7"
+
+
+services:
+  postgres:
+    image: postgres:16.3-alpine
+    container_name: knex
+    hostname: knex
+    env_file: ./.env
+    volumes:
+      - knex-data:/var/lib/postgresql/data
+    restart: always
+    ports:
+      - 5432:5432
+    networks:
+      - knex-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=alexvyber@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=Password@1
+      - PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION=True
+      - PGADMIN_CONFIG_LOGIN_BANNER="Authorised users only!"
+      - PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=10
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - 8080:80
+    restart: always
+    depends_on:
+      - postgres
+    networks:
+      - knex-network
+
+
+networks:
+  knex-network:
+    external: true
+
+
+volumes:
+  knex-data:
+  pgadmin:
+    # external: true
